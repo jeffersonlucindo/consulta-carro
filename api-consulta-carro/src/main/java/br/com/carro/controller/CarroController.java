@@ -3,6 +3,7 @@ package br.com.carro.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,9 @@ public class CarroController {
 	@Autowired
 	private CarroService service;
 	
+	@Autowired
+	MessageSource message;
+	
 	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public List<Carro> listar(){
@@ -36,7 +40,7 @@ public class CarroController {
 			if(carro != null) {
 				responseEntity = ResponseEntity.status(HttpStatus.OK).body(carro);
 			} else {
-				responseEntity = ResponseEntity.status(HttpStatus.OK).body("Carro não encontrado");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("carro.consulta.nao.encontrado", null, null));
 			}
 		} catch (Exception e) {
 			responseEntity = ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
@@ -50,9 +54,9 @@ public class CarroController {
 		try {
 			List<Carro> carroList = service.buscarPorOrigem(nomeOrigem);
 			if(carroList != null && !carroList.isEmpty()) {
-				responseEntity =  ResponseEntity.status(HttpStatus.OK).body(carroList);
+				responseEntity =  ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("carro.consulta.nao.encontrado", null, null));
 			} else {
-				responseEntity =  ResponseEntity.status(HttpStatus.OK).body("Carro não encontrado");
+				responseEntity =  ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("carro.existente", null, null));
 			}
 			
 		} catch (Exception e) {
@@ -69,7 +73,7 @@ public class CarroController {
 			if(carro != null) {
 				responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(carro);
 			} else {
-				responseEntity = ResponseEntity.status(HttpStatus.OK).body("Carro não encontrado");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("carro.existente", null, null));
 			}
 		} catch (Exception e) {
 			responseEntity = ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
@@ -82,7 +86,7 @@ public class CarroController {
 		ResponseEntity<?> responseEntity = null;
 		try {
 			service.deletar(id);
-			responseEntity = ResponseEntity.status(HttpStatus.OK).body("Carro deletado com sucesso");
+			responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("carro.deleta.sucesso", null, null));
 		} catch (Exception e) {
 			responseEntity = ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
@@ -94,9 +98,9 @@ public class CarroController {
 		ResponseEntity<?> responseEntity = null;
 		try {
 			if(service.atualizar(carroDTO)) {
-				responseEntity = ResponseEntity.status(HttpStatus.OK).body("Carro atualizado com sucesso");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("carro.atualiza.sucesso", null, null));
 			} else {
-				responseEntity = ResponseEntity.status(HttpStatus.OK).body("Carro não encontrado");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("carro.consulta.nao.encontrado", null, null));
 			}
 			
 		} catch (Exception e) {

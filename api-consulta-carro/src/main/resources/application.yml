@@ -5,6 +5,8 @@ server:
     context-path: /api-carros
 
 spring:
+  messages:
+    basename: messages
   jpa:
     defer-datasource-initialization: true
     generate-ddl: true    show-sql: true

@@ -3,6 +3,7 @@ package br.com.carro.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,9 @@ public class MarcaController {
 	@Autowired
 	private MarcaService service;
 	
+	@Autowired
+	private MessageSource message;
+	
 	@RequestMapping(value = "/listar", method = RequestMethod.GET)
 	public List<Marca> listar(){
 		return service.listar();
@@ -35,7 +39,7 @@ public class MarcaController {
 			if(marca != null) {
 				responseEntity = ResponseEntity.status(HttpStatus.OK).body(marca);
 			} else {
-				responseEntity = ResponseEntity.status(HttpStatus.OK).body("Marca não encontrada");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("marca.consulta.nao.encontrado", null, null));
 			}
 		} catch (Exception e) {
 			responseEntity = ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
@@ -45,59 +49,62 @@ public class MarcaController {
 	
 	@RequestMapping(value = "/origem/{nome}", method = RequestMethod.GET)
 	public ResponseEntity<?> buscarPorOrigem(@PathVariable("nome") String nomeOrigem){
-		
+		ResponseEntity<?> responseEntity = null;
 		try {
 			List<Marca> marcaList = service.buscarPorOrigem(nomeOrigem);
 			if(!marcaList.isEmpty()) {
-				return ResponseEntity.status(HttpStatus.OK).body(marcaList);
+				responseEntity =  ResponseEntity.status(HttpStatus.OK).body(marcaList);
 			} else {
-				return ResponseEntity.status(HttpStatus.OK).body("Marca não encontrada");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("marca.consulta.nao.encontrado", null, null));
 			}
 			
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			responseEntity = ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
-		
+		return responseEntity;
 	}
 	
 	@RequestMapping(value = "/adicionar", method = RequestMethod.POST)
 	public ResponseEntity<?> adicionar(@RequestBody MarcaDTO marcaDTO) {
-		
+		ResponseEntity<?> responseEntity = null;
 		try {
 			Marca marca = service.adicionar(marcaDTO);
 			if(marca != null) {
-				return ResponseEntity.status(HttpStatus.CREATED).body(marca);
+				responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(marca);
 			}else {
-				return ResponseEntity.status(HttpStatus.OK).body("Marca não encontrada");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("marca.existente", null, null));
 			}
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			responseEntity = ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
+		return responseEntity;
 	}
 	
 	@RequestMapping(value = "/deletar/{id}", method = RequestMethod.POST)
 	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
-		
+		ResponseEntity<?> responseEntity = null;
 		try {
 			service.deletar(id);
-			return ResponseEntity.status(HttpStatus.OK).body("Deletado com sucesso!");
+			responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("marca.deleta.sucess", null, null));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
+			responseEntity = ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
+		return responseEntity;
 	}
 	
 	@RequestMapping(value = "/atualizar", method = RequestMethod.POST)
 	public ResponseEntity<?> atualizar(@RequestBody MarcaDTO marcaDTO) {
-		
+		ResponseEntity<?> responseEntity = null;
 		try {
 			if(service.atualizar(marcaDTO)) {
-				return ResponseEntity.status(HttpStatus.OK).body("Marca Atualizada");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("marca.atualiza.sucesso", null, null));
 			} else {
-				return ResponseEntity.status(HttpStatus.OK).body("Marca não encontrada");
+				responseEntity = ResponseEntity.status(HttpStatus.OK).body(this.message.getMessage("marca.consulta.nao.encontrado", null, null));
 			}
 			
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
 		}
+		return responseEntity;
 	}
 }

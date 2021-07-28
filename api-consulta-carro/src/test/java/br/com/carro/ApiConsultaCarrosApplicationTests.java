@@ -1,4 +1,4 @@
-package br.com.consultacarros.apiconsultacarros;
+package br.com.carro;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

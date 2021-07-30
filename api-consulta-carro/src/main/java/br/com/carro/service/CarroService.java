@@ -92,4 +92,10 @@ public class CarroService {
 			return false;
 		}
 	}
+
+	public Carro buscarPorId(String id) {
+		logger.info(String.format("[CarroService] Consultando carro pelo ID : ", id));
+		Optional<Carro> optional = respository.findById(Long.parseLong(id));
+		return optional.get();
+	}
 }

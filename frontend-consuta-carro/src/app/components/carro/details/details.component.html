@@ -1,0 +1,29 @@
+<mat-card>
+    <mat-card-title>{{ carro.nome }}</mat-card-title>
+    <mat-nav-list>
+        <a mat-list-item>
+            Quilômetro por galão : {{ carro.kmPorGalao }} km
+        </a>
+        <a mat-list-item>
+            Cilindros : {{ carro.cilindros }}
+        </a>
+        <a mat-list-item>
+            Cavalo de Força : {{ carro.cavalorDeForca }} cv
+        </a>
+        <a mat-list-item>
+            Peso : {{ carro.peso }} kg
+        </a>
+        <a mat-list-item>
+            Aceleração : {{ carro.aceleracao }} km/h
+        </a>
+        <a mat-list-item>
+            Ano : {{ carro.ano }}
+        </a>
+        <a mat-list-item>
+            Origem : {{ carro.origem }}
+        </a>
+        <a mat-list-item>
+            Marca : {{ carro.marcaDTO.nome }}
+        </a>
+    </mat-nav-list>
+</mat-card>

@@ -1,0 +1,48 @@
+<mat-card>
+    <mat-card-title>Novo Carro</mat-card-title>
+    <form [formGroup]="carroForm" (submit)="salvar()">
+        <mat-form-field>
+            <input matInput placeholder="Nome" formControlName="nome" name="name">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Km por Galão" formControlName="kmPorGalao" name="kmPorGalao">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="cilindros" formControlName="cilindros" name="cilindros">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Cavalo de força" formControlName="cavalorDeForca" name="cavalorDeForca">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Peso" formControlName="peso" name="peso">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Aceleração" formControlName="aceleracao" name="aceleracao">
+        </mat-form-field>
+        <mat-form-field>            
+            <input type="date" matInput placeholder="ano" formControlName="ano" name="ano">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="origem" formControlName="origem" name="origem">
+        </mat-form-field>
+        
+        <mat-form-field appearance="Marcas">
+          <mat-label>Selecione a marca</mat-label>
+          <mat-select 
+          formControlName="marca" 
+          [compareWith]="comparador">
+            <mat-option *ngFor="let marca of marcas" [value]="marca">
+              {{marca.nome}}
+            </mat-option>
+          </mat-select>          
+        </mat-form-field>
+        <button mat-raised-button type="submit" color="primary" [disabled]="carroForm.invalid">
+            Salvar
+        </button>
+        
+        <button mat-raised-button type="button" (click)="cancelar()" >
+            Cancelar
+        </button>
+    </form>
+</mat-card>
+

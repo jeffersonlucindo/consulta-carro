@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  app-frontend:
+    build: 
+      context: .      
+      dockerfile: frontend-consuta-carro/Dockerfile
+    ports:
+      - "80:80"
+  app-backend:
+    build: 
+      context: .
+      dockerfile: api-consulta-carro/Dockerfile
+    ports:
+      - "8090:8090"       
+  
+    
